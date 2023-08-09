@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,7 +48,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    public function current_role(): BelongsTo{
+    public function current_role(): BelongsTo
+    {
         return $this->belongsTo(\Spatie\Permission\Models\Role::class);
+    }
+    public function user_detail(): HasOne
+    {
+        return $this->hasOne(UserDetail::class);
+    }
+
+    public function materias(): BelongsToMany
+    {
+        return $this->belongsToMany(Materia::class);
     }
 }

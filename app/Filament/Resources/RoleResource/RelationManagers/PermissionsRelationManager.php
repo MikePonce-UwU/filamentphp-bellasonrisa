@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Filament\Resources\UserResource\RelationManagers;
+namespace App\Filament\Resources\RoleResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class RolesRelationManager extends RelationManager
+class PermissionsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'roles';
+    protected static string $relationship = 'permissions';
 
     public function form(Form $form): Form
     {
@@ -31,7 +30,6 @@ class RolesRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('permissions_count')->counts('permissions'),
             ])
             ->filters([
                 //

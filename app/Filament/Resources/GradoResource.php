@@ -46,6 +46,7 @@ class GradoResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -64,8 +65,8 @@ class GradoResource extends Resource
     {
         return [
             //
-            \App\Filament\Resources\GradoResource\RelationManagers\EstudiantesRelationManager::class,
-            \App\Filament\Resources\GradoResource\RelationManagers\MateriasRelationManager::class,
+            RelationManagers\EstudiantesRelationManager::class,
+            RelationManagers\MateriasRelationManager::class,
         ];
     }
     

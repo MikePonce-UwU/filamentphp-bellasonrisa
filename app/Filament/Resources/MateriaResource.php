@@ -45,6 +45,7 @@ class MateriaResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -71,6 +72,7 @@ class MateriaResource extends Resource
         return [
             'index' => Pages\ListMaterias::route('/'),
             'create' => Pages\CreateMateria::route('/create'),
+            // 'view' => Pages\ViewMateria::route('/{record}'),
             'edit' => Pages\EditMateria::route('/{record}/edit'),
         ];
     }    

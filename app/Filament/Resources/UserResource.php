@@ -5,15 +5,15 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
-// use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Validation\Rule;
 
 class UserResource extends Resource
 {
@@ -49,7 +49,7 @@ class UserResource extends Resource
                     ->label('Teléfono')
                     ->unique(),
                 Forms\Components\DatePicker::make('fecha_nacimiento')
-                    ->label('FDN'), 
+                    ->label('FDN'),
                 Forms\Components\Select::make('sexo')
                     ->label('Sexo')
                     ->required()
@@ -73,40 +73,25 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nombre')
                     ->searchable()
-                    ->description(fn (User $user): string => $user->email, position: 'above')
-                    ->copyable()
-                    ->copyMessage('Correo copiado al clipboard')
-                    ->copyMessageDuration(1000)
-                    ->copyableState(fn (User $record): string => "URL: {$record->email}")
+                    ->description(fn (User $user): string => $user->email)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cedula')
                     ->label('Cédula')
                     ->placeholder('Sin asignar')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('fecha_nacimiento')
-                    ->label('FDN')
-                    ->date()
-                    ->placeholder('Sin asignar')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('telefono')
+                    ->copyable()
+                    ->label('Teléfono'),
                 Tables\Columns\TextColumn::make('current_role.name')
+                    ->label('Rol asignado')
                     ->badge()
-                    ->color(fn (string $name): string => match ($name) {
-                        'admin' => 'success',
-                        default => 'danger',
-                    })
-                    ->label('Rol principal')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('roles.name')
-                    ->badge()
-                    ->listWithLineBreaks()
-                    ->bulleted()
-                    ->limitList()
-                    ->label('Roles'),
+                    ->icon('heroicon-o-at-symbol'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -123,10 +108,15 @@ class UserResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-            \App\Filament\Resources\UserResource\RelationManagers\RolesRelationManager::class,
-        ];
+        $relations = array();
+            // dd(Filament::auth()->user());
+        // if (Filament::auth()->user()->current_role_id == 1 || Filament::auth()->user()->current_role_id == 2){
+            array_push($relations, RelationManagers\RolesRelationManager::class);
+            array_push($relations, RelationManagers\PermissionsRelationManager::class);
+            array_push($relations, RelationManagers\UserDetailRelationManager::class);
+            array_push($relations, RelationManagers\MateriasRelationManager::class);
+        // }
+        return $relations;
     }
 
     public static function getPages(): array
