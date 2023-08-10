@@ -44,9 +44,13 @@ class UserResource extends Resource
                     ->hiddenOn('edit'),
                 Forms\Components\TextInput::make('cedula')
                     ->label('Cédula de identidad')
+                    ->mask('999-999999-9999a')
+                    ->placeholder('999-999999-9999A')
                     ->unique(),
                 Forms\Components\TextInput::make('telefono')
                     ->label('Teléfono')
+                    ->mask('9999-9999')
+                    ->placeholder('9999-9999')
                     ->unique(),
                 Forms\Components\DatePicker::make('fecha_nacimiento')
                     ->label('FDN'),

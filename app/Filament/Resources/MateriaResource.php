@@ -7,6 +7,7 @@ use App\Filament\Resources\MateriaResource\RelationManagers;
 use App\Models\Materia;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -59,14 +60,15 @@ class MateriaResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
+            RelationManagers\NotasRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -75,8 +77,8 @@ class MateriaResource extends Resource
             // 'view' => Pages\ViewMateria::route('/{record}'),
             'edit' => Pages\EditMateria::route('/{record}/edit'),
         ];
-    }    
-    
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
@@ -85,3 +87,39 @@ class MateriaResource extends Resource
             ]);
     }
 }
+
+
+// Forms\Components\Select::make('grado_id')
+//                     ->label('Grado')
+//                     ->required(),
+//                 Forms\Components\Select::make('estudiante_id')
+//                     ->label('Estudiante')
+//                     ->required(),
+//                 Forms\Components\TextInput::make('nota_1_corte')
+//                     ->label('Nota 1er Corte')
+//                     ->number(),
+//                 Forms\Components\TextInput::make('nota_2_corte')
+//                     ->label('Nota 2do corte')
+//                     ->number(),
+//                 Forms\Components\TextInput::make('nota_3_corte')
+//                     ->label('Nota 3er corte')
+//                     ->number(),
+//                 Forms\Components\TextInput::make('nota_4_corte')
+//                     ->label('Nota 4to corte')
+//                     ->number(),
+//                 Forms\Components\TextInput::make('nota_1_semestre')
+//                     ->label('Nota 1er Semestre')
+//                     ->number(),
+//                 Forms\Components\TextInput::make('nota_2_semestre')
+//                     ->label('Nota 2do Semestre')
+//                     ->number(),
+
+// Tables\Columns\TextColumn::make('user_id'),
+//                 Tables\Columns\TextColumn::make('grado_id'),
+//                 Tables\Columns\TextColumn::make('estudiante_id'),
+//                 Tables\Columns\TextColumn::make('nota_1_corte'),
+//                 Tables\Columns\TextColumn::make('nota_2_corte'),
+//                 Tables\Columns\TextColumn::make('nota_3_corte'),
+//                 Tables\Columns\TextColumn::make('nota_4_corte'),
+//                 Tables\Columns\TextColumn::make('nota_1_semestre'),
+//                 Tables\Columns\TextColumn::make('nota_2_semestre'),

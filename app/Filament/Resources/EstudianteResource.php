@@ -31,6 +31,8 @@ class EstudianteResource extends Resource
                 Forms\Components\TextInput::make('codigo_estudiante')
                     ->label('Código estudiantil')
                     ->unique()
+                    ->mask('9999.aaaa.99999')
+                    ->placeholder('9999.aaaa.99999')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nombre_completo')
@@ -46,10 +48,14 @@ class EstudianteResource extends Resource
                     ->label('Fecha de nacimiento')
                     ->required(),
                 Forms\Components\TextInput::make('cedula')
-                    ->unique()
+                    ->unique(ignoreRecord: true)
+                    ->mask('999-999999-9999a')
+                    ->placeholder('999-999999-9999A')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('telefono')
-                    ->unique()
+                    ->unique(ignoreRecord: true)
+                    ->mask('9999-9999')
+                    ->placeholder('9999-9999')
                     ->maxLength(255),
                 Forms\Components\Textarea::make('lugar_nacimiento')
                     ->maxLength(255),
@@ -63,7 +69,7 @@ class EstudianteResource extends Resource
                     ->searchable(),
                 Forms\Components\Select::make('tutor_id')
                     ->relationship(name: 'tutor', titleAttribute: 'name')
-                    ->options(\App\Models\User::where('name', 'like', 'Padre de familia')->get()->pluck('name', 'id'))
+                    ->options(\App\Models\User::where('current_role_id', '=', 7)->get()->pluck('name', 'id'))
                     ->searchable(),
             ]);
     }
@@ -71,10 +77,11 @@ class EstudianteResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('codigo_estudiante')
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('codigo_estudiante')->sortable(),
-                Tables\Columns\TextColumn::make('nombre_completo')->sortable(),
+                Tables\Columns\TextColumn::make('codigo_estudiante')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('nombre_completo')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('fecha_nacimiento')->sortable(),
                 Tables\Columns\TextColumn::make('grado.siglas')->sortable(),
             ])
