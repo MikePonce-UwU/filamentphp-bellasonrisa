@@ -21,9 +21,26 @@ class Nota extends Model
         'nota_3_corte',
         'nota_4_corte',
     ];
-    public function getPrimerSemestreAttribute()
+    public function primerSemestre(): Attribute
     {
-        return $this->nota_1_semestre;
+        // dd($this->attributes);
+        return Attribute::make(
+            get: fn (): string => ($this->attributes['nota_1_corte'] + $this->attributes['nota_2_corte']) / 2
+        );
+    }
+    public function segundoSemestre(): Attribute
+    {
+        // dd($this->attributes);
+        return Attribute::make(
+            get: fn (): string => ($this->attributes['nota_3_corte'] + $this->attributes['nota_4_corte']) / 2
+        );
+    }
+    public function notaFinal(): Attribute
+    {
+        // dd($this->attributes);
+        return Attribute::make(
+            get: fn (): string => ($this->attributes['nota_1_corte'] + $this->attributes['nota_2_corte'] + $this->attributes['nota_3_corte'] + $this->attributes['nota_4_corte']) / 4
+        );
     }
     public function materia(): BelongsTo
     {

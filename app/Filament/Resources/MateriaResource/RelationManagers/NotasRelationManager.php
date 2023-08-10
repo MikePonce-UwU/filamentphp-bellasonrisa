@@ -43,14 +43,15 @@ class NotasRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('nota_total')
             ->columns([
-                Tables\Columns\TextColumn::make('estudiante_id'),
-                Tables\Columns\TextColumn::make('grado_id'),
+                Tables\Columns\TextColumn::make('estudiante.nombre_completo'),
+                Tables\Columns\TextColumn::make('grado.siglas'),
                 Tables\Columns\TextColumn::make('nota_1_corte'),
                 Tables\Columns\TextColumn::make('nota_2_corte'),
+                Tables\Columns\TextColumn::make('primer_semestre'),
                 Tables\Columns\TextColumn::make('nota_3_corte'),
                 Tables\Columns\TextColumn::make('nota_4_corte'),
-                Tables\Columns\TextColumn::make('primer_semestre'),
-                Tables\Columns\TextColumn::make('nota_2_semestre'),
+                Tables\Columns\TextColumn::make('segundo_semestre'),
+                Tables\Columns\TextColumn::make('nota_final'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()
