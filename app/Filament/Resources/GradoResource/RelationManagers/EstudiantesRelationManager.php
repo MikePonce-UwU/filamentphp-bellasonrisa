@@ -21,6 +21,9 @@ class EstudiantesRelationManager extends RelationManager
                 Forms\Components\TextInput::make('codigo_estudiante')
                     ->label('Código estudiantil')
                     ->unique()
+                    ->mask('9999.aaaa.99999')
+                    ->placeholder('9999.aaaa.99999')
+                    ->autocapitalize()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nombre_completo')
@@ -37,9 +40,13 @@ class EstudiantesRelationManager extends RelationManager
                     ->required(),
                 Forms\Components\TextInput::make('cedula')
                     ->unique()
+                    ->mask('999-999999-9999a')
+                    ->placeholder('999-999999-9999A')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('telefono')
                     ->unique()
+                    ->mask('9999-9999')
+                    ->placeholder('9999-9999')
                     ->maxLength(255),
                 Forms\Components\Textarea::make('lugar_nacimiento')
                     ->maxLength(255),
@@ -49,7 +56,7 @@ class EstudiantesRelationManager extends RelationManager
                     ->maxLength(255),
                 Forms\Components\Select::make('tutor_id')
                     ->relationship(name: 'tutor', titleAttribute: 'name')
-                    ->options(\App\Models\User::where('name', 'like', 'Padre de familia')->get()->pluck('name', 'id'))
+                    ->options(\App\Models\User::where('current_role_id', '=', '7')->get()->pluck('name', 'id'))
                     ->searchable(),
             ]);
     }
@@ -59,9 +66,11 @@ class EstudiantesRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('nombre_completo')
             ->columns([
+                Tables\Columns\TextColumn::make('codigo_estudiante')->sortable(),
                 Tables\Columns\TextColumn::make('nombre_completo')->sortable(),
                 Tables\Columns\TextColumn::make('fecha_nacimiento')->sortable(),
                 Tables\Columns\TextColumn::make('sexo')->sortable(),
+                Tables\Columns\TextColumn::make('tutor.name')->label('Padre de familia')->sortable()->placeholder('sin asignar'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()
