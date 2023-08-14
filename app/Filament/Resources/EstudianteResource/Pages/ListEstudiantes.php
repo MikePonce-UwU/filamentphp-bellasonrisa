@@ -16,4 +16,8 @@ class ListEstudiantes extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+    protected function getHeaderWidgets(): array
+    {
+        return EstudianteResource::getWidgets();
+    }
 }

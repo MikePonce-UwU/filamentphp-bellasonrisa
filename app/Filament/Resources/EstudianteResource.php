@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EstudianteResource\Pages;
 use App\Filament\Resources\EstudianteResource\RelationManagers;
+use App\Filament\Resources\EstudianteResource\Widgets\EstudiantesStatsOverview;
 use App\Models\Estudiante;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -126,5 +127,11 @@ class EstudianteResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+    public static function getWidgets(): array
+    {
+        return [
+            EstudiantesStatsOverview::class,
+        ];
     }
 }

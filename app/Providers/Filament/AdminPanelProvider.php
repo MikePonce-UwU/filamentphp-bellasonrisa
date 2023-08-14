@@ -5,6 +5,8 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationBuilder;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -54,6 +56,15 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Portal para padres (Admin)')
+                    ->url('for-parents')
+                    // ->icon('heroicons-o-arrow-uturn-right')
+                    // ->hidden(fn(): bool => auth()->user()->hasRole(['Admin', 'Padre de  familia']) || auth()->user()->current_role_id === 5)
+            ])
+            ->databaseNotifications()
+            ->sidebarCollapsibleOnDesktop()
             ->navigationGroups([
                 'Estudiantes',
                 'Usuarios',
