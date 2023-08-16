@@ -7,7 +7,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class OnlyParentsMiddleware
+class NotForParents
 {
     /**
      * Handle an incoming request.
@@ -16,18 +16,16 @@ class OnlyParentsMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // dd($request->user()->current_role_id === 5);
-        // dd($request->user()->hasRole(5));
-        if ($request->user()->current_role_id === 5 || $request->user()->hasRole(5))
+        if ($request->user()->current_role_id != 5 || $request->user()->hasAllRoles())
             return $next($request);
         else {
             Notification::make()
-                ->title('Usted ha intentado entrar al portal para padres.')
-                ->color('info')
+                ->title('No tiene permisos para entrar a este portal.')
+                ->danger()
                 ->send();
 
             return redirect()
-                ->route('filament.admin.pages.dashboard');
+                ->route('filament.parents.pages.dashboard');
         }
     }
 }

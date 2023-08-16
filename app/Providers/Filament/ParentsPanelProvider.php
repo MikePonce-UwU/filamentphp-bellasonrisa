@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Parents\Pages\Auth\LoginPage;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -25,6 +26,7 @@ class ParentsPanelProvider extends PanelProvider
         return $panel
             ->id('parents')
             ->path('for-parents')
+            ->login(LoginPage::class)
             ->colors([
                 'primary' => Color::Emerald,
             ])
@@ -48,9 +50,9 @@ class ParentsPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                \App\Http\Middleware\OnlyParentsMiddleware::class,
             ])
             ->authMiddleware([
+                \App\Http\Middleware\OnlyParentsMiddleware::class,
                 Authenticate::class,
             ]);
     }
