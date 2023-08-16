@@ -7,7 +7,8 @@ use App\Filament\Resources\MateriaResource\RelationManagers;
 use App\Models\Materia;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Infolists\Components;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -33,7 +34,37 @@ class MateriaResource extends Resource
                 Forms\Components\TextInput::make('siglas')->label('Siglas')->required(),
             ]);
     }
-
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Components\Section::make('Información básica')
+                    ->icon('heroicon-o-exclamation-circle')
+                    ->schema([
+                        Components\TextEntry::make('nombre_completo'),
+                        Components\TextEntry::make('siglas'),
+                    ]),
+                // Components\Section::make('Notas')
+                //     ->icon('heroicon-o-folder')
+                //     ->schema([
+                //         Components\RepeatableEntry::make('notas')
+                //         ->schema([
+                //             Components\Section::make()
+                //                 ->schema([
+                //                     Components\TextEntry::make('estudiante.nombre_completo'),
+                //                     Components\TextEntry::make('grado.nombre_completo'),
+                //                     Components\TextEntry::make('user.name'),
+                //                 ]),
+                //             Components\Section::make()
+                //                 ->schema([
+                //                     Components\TextEntry::make('primer_semestre'),
+                //                     Components\TextEntry::make('segundo_semestre'),
+                //                     Components\TextEntry::make('nota_final'),
+                //                 ]),
+                //         ])
+                //     ]),
+            ]);
+    }
     public static function table(Table $table): Table
     {
         return $table
@@ -87,39 +118,3 @@ class MateriaResource extends Resource
             ]);
     }
 }
-
-
-// Forms\Components\Select::make('grado_id')
-//                     ->label('Grado')
-//                     ->required(),
-//                 Forms\Components\Select::make('estudiante_id')
-//                     ->label('Estudiante')
-//                     ->required(),
-//                 Forms\Components\TextInput::make('nota_1_corte')
-//                     ->label('Nota 1er Corte')
-//                     ->number(),
-//                 Forms\Components\TextInput::make('nota_2_corte')
-//                     ->label('Nota 2do corte')
-//                     ->number(),
-//                 Forms\Components\TextInput::make('nota_3_corte')
-//                     ->label('Nota 3er corte')
-//                     ->number(),
-//                 Forms\Components\TextInput::make('nota_4_corte')
-//                     ->label('Nota 4to corte')
-//                     ->number(),
-//                 Forms\Components\TextInput::make('nota_1_semestre')
-//                     ->label('Nota 1er Semestre')
-//                     ->number(),
-//                 Forms\Components\TextInput::make('nota_2_semestre')
-//                     ->label('Nota 2do Semestre')
-//                     ->number(),
-
-// Tables\Columns\TextColumn::make('user_id'),
-//                 Tables\Columns\TextColumn::make('grado_id'),
-//                 Tables\Columns\TextColumn::make('estudiante_id'),
-//                 Tables\Columns\TextColumn::make('nota_1_corte'),
-//                 Tables\Columns\TextColumn::make('nota_2_corte'),
-//                 Tables\Columns\TextColumn::make('nota_3_corte'),
-//                 Tables\Columns\TextColumn::make('nota_4_corte'),
-//                 Tables\Columns\TextColumn::make('nota_1_semestre'),
-//                 Tables\Columns\TextColumn::make('nota_2_semestre'),

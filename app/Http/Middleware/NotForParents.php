@@ -16,7 +16,7 @@ class NotForParents
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->current_role_id != 5 || $request->user()->hasAllRoles())
+        if ($request->user()->current_role_id != 5 || $request->user()->hasRole([1, 2, 4, 3]))
             return $next($request);
         else {
             Notification::make()
@@ -25,7 +25,7 @@ class NotForParents
                 ->send();
 
             return redirect()
-                ->route('filament.parents.pages.dashboard');
+                ->route('filament.parents.auth.login');
         }
     }
 }

@@ -27,7 +27,7 @@ class OnlyParentsMiddleware
                 ->send();
 
             return redirect()
-                ->route('filament.admin.pages.dashboard');
+                ->route('filament.admin.auth.login');
         }
     }
 }

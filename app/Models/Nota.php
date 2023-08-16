@@ -13,6 +13,7 @@ class Nota extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'estudiante_id',
         'grado_id',
         'materia_id',

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->foreignId('estudiante_id')->constrained();
             $table->foreignId('grado_id')->constrained();
             $table->foreignId('materia_id')->constrained();
@@ -20,9 +21,6 @@ return new class extends Migration
             $table->string('nota_2_corte')->nullable();
             $table->string('nota_3_corte')->nullable();
             $table->string('nota_4_corte')->nullable();
-            $table->string('nota_1_semestre')->nullable();
-            $table->string('nota_2_semestre')->nullable();
-            $table->string('nota_total')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

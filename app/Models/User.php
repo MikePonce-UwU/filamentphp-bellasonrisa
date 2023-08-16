@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Materia::class);
     }
+
+    public function is_admin(): bool
+    {
+        return auth()->user()->current_role_id === 1 || auth()->user()->hasRole(1);
+    }
 }
