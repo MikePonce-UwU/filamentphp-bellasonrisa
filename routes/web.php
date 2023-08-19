@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/export-nota', [\App\Http\Controllers\NotaController::class, 'export'])->name('nota.export');

@@ -26,7 +26,7 @@ class CreateNota extends CreateRecord
         $data = $this->record;
         $user = auth()->user()->name;
 
-        $estudiante = Estudiante::find($data['estudiante_id'])->first()->nombre_completo;
+        $estudiante = Estudiante::query()->where('id', $data['estudiante_id'])->first()->nombre_completo;
         Notification::make()
             ->title('Nueva nota')
             ->icon('heroicon-o-folder')

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Exports\NotaExport;
+use App\Exports\NotasExport;
 use App\Filament\Resources\NotaResource\Pages;
 use App\Filament\Resources\NotaResource\RelationManagers;
 use App\Models\Estudiante;
@@ -10,6 +12,7 @@ use App\Models\Materia;
 use App\Models\Nota;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -17,6 +20,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Facades\Excel;
 
 class NotaResource extends Resource
 {
@@ -38,11 +43,6 @@ class NotaResource extends Resource
                     ->aside()
                     ->columns(2)
                     ->schema([
-                        Forms\Components\Select::make('estudiante_id')
-                            ->label('Estudiante ID')
-                            ->options(Estudiante::all()->pluck('nombre_completo', 'id'))
-                            ->required()
-                            ->searchable(),
                         Forms\Components\Select::make('materia_id')
                             ->label('Materia ID')
                             ->options($materias)
@@ -50,7 +50,22 @@ class NotaResource extends Resource
                             ->searchable(),
                         Forms\Components\Select::make('grado_id')
                             ->label('Grado ID')
-                            ->options(Grado::all()->pluck('nombre_completo', 'id'))
+                            ->options(
+                                fn (Get $get): Collection => Grado::query()
+                                    ->whereHas('materias', function ($query) use ($get) {
+                                        $query->where('materia_id', $get('materia_id'));
+                                    })
+                                    ->pluck('nombre_completo', 'id')
+                            )
+                            ->required()
+                            ->searchable(),
+                        Forms\Components\Select::make('estudiante_id')
+                            ->label('Estudiante ID')
+                            ->options(
+                                fn (Get $get): Collection => Estudiante::query()
+                                    ->where('grado_id', $get('grado_id'))
+                                    ->pluck('nombre_completo', 'id')
+                            )
                             ->required()
                             ->searchable(),
                         Forms\Components\TextInput::make('user_id')
@@ -145,11 +160,25 @@ class NotaResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 // Tables\Actions\EditAction::make(),
             ])
+            ->headerActions([
+                Tables\Actions\Action::make('export-all')
+                    ->icon('heroicon-m-arrow-top-right-on-square')
+                    ->label('Export all data')
+                    ->url(route('nota.export'))
+                    ->openUrlInNewTab(true)
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\BulkAction::make('export-data')
+                        ->label('Export data')
+                        ->icon('heroicon-m-arrow-top-right-on-square')
+                        ->requiresConfirmation(true)
+                        ->action(
+                            fn (Collection $records) => Excel::download(new NotasExport($records), 'notas-export.csv', \Maatwebsite\Excel\Excel::CSV)
+                        )
                 ]),
             ])
             ->emptyStateActions([
