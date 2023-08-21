@@ -85,13 +85,19 @@ class EstudianteResource extends Resource
                 Tables\Columns\TextColumn::make('nombre_completo')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('fecha_nacimiento')->sortable(),
                 Tables\Columns\TextColumn::make('grado.siglas')->sortable(),
+                Tables\Columns\TextColumn::make('tutor.name')->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\ForceDeleteAction::make(),
+                    Tables\Actions\RestoreAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -131,7 +137,7 @@ class EstudianteResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            EstudiantesStatsOverview::class,
+            // EstudiantesStatsOverview::class,
         ];
     }
 }
