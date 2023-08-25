@@ -14,7 +14,11 @@ class EstudiantePolicy
     public function viewAny(User $user): bool
     {
         //
-        return $user->hasRole(['Admin']) || $user->current_role->name === 'Director';
+        return $user->hasRole(['Admin', 'director', 'Padre de familia', 'Maestro']) || in_array($user->current_role->name, [
+            'Director',
+            'Padre de familia',
+            'Maestro',
+        ]);
     }
 
     /**
@@ -23,7 +27,11 @@ class EstudiantePolicy
     public function view(User $user, Estudiante $estudiante): bool
     {
         //
-        return $user->hasRole(['Admin']) || $user->current_role->name === 'Director';
+        return $user->hasRole(['Admin', 'director', 'Padre de familia', 'Maestro']) || in_array($user->current_role->name, [
+            'Director',
+            'Padre de familia',
+            'Maestro',
+        ]);
     }
 
     /**
@@ -32,7 +40,11 @@ class EstudiantePolicy
     public function create(User $user): bool
     {
         //
-        return $user->hasRole(['Admin']) || $user->current_role->name === 'Director';
+        return $user->hasRole(['Admin', 'director', 'Padre de familia', 'Maestro']) || in_array($user->current_role->name, [
+            'Director',
+            'Padre de familia',
+            'Maestro',
+        ]);
     }
 
     /**
@@ -41,7 +53,11 @@ class EstudiantePolicy
     public function update(User $user, Estudiante $estudiante): bool
     {
         //
-        return $user->hasRole(['Admin']) || $user->current_role->name === 'Director';
+        return $user->hasRole(['Admin', 'director', 'Padre de familia', 'Maestro']) || in_array($user->current_role->name, [
+            'Director',
+            'Padre de familia',
+            'Maestro',
+        ]);
     }
 
     /**
@@ -50,7 +66,11 @@ class EstudiantePolicy
     public function delete(User $user, Estudiante $estudiante): bool
     {
         //
-        return $user->hasRole(['Admin']) || $user->current_role->name === 'Director';
+        return $user->hasRole(['Admin', 'director', 'Padre de familia', 'Maestro']) || in_array($user->current_role->name, [
+            'Director',
+            'Padre de familia',
+            'Maestro',
+        ]);
     }
 
     /**
@@ -59,7 +79,11 @@ class EstudiantePolicy
     public function restore(User $user, Estudiante $estudiante): bool
     {
         //
-        return $user->hasRole(['Admin']) || $user->current_role->name === 'Director';
+        return $user->hasRole(['Admin', 'director', 'Padre de familia', 'Maestro']) || in_array($user->current_role->name, [
+            'Director',
+            'Padre de familia',
+            'Maestro',
+        ]);
     }
 
     /**
@@ -68,6 +92,10 @@ class EstudiantePolicy
     public function forceDelete(User $user, Estudiante $estudiante): bool
     {
         //
-        return $user->hasRole(['Admin']) || $user->current_role->name === 'Director';
+        return $user->hasRole(['Admin', 'director', 'Padre de familia', 'Maestro']) || in_array($user->current_role->name, [
+            'Director',
+            'Padre de familia',
+            'Maestro',
+        ]);
     }
 }

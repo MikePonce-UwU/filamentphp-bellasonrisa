@@ -112,15 +112,13 @@ class UserResource extends Resource
 
     public static function getRelations(): array
     {
-        $relations = array();
-            // dd(Filament::auth()->user());
-        // if (Filament::auth()->user()->current_role_id == 1 || Filament::auth()->user()->current_role_id == 2){
-            array_push($relations, RelationManagers\RolesRelationManager::class);
-            array_push($relations, RelationManagers\PermissionsRelationManager::class);
-            array_push($relations, RelationManagers\UserDetailRelationManager::class);
-            array_push($relations, RelationManagers\MateriasRelationManager::class);
-        // }
-        return $relations;
+        return [
+            //
+            RelationManagers\RolesRelationManager::class,
+            RelationManagers\PermissionsRelationManager::class,
+            RelationManagers\UserDetailRelationManager::class,
+            RelationManagers\MateriasRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

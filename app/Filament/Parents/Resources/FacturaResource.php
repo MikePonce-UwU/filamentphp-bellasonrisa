@@ -51,9 +51,6 @@ class FacturaResource extends Resource
                     ->label('Total facturado')
                     ->numeric(decimalPlaces: 2)
                     ->money('nio'),
-                Tables\Columns\ToggleColumn::make('income')
-                    ->label('Entrada/salida')
-                    ->disabled(),
                 Tables\Columns\TextColumn::make('tipo_factura')
                     ->label('Tipo de factura')
                     ->limit(10)

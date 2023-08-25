@@ -18,7 +18,7 @@ class RolesRelationManager extends RelationManager
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return $ownerRecord->hasRole('Admin');
+        return $ownerRecord->hasRole('Admin') || $ownerRecord->is_admin();
     }
     public function form(Form $form): Form
     {
