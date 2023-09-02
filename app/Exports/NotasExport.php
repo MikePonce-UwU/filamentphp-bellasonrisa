@@ -13,6 +13,7 @@ class NotasExport implements FromView
     public function __construct(Collection $notas)
     {
         $this->notas = $notas->load(['materia', 'grado', 'estudiante']);
+        // ->orderBy('estudiante.nombre_completo')->groupBy('estudiante.grado_id');
     }
     public function view(): View
     {

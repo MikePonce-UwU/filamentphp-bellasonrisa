@@ -120,21 +120,21 @@ class NotaResource extends Resource
                     ->icon('heroicon-o-folder')
                     ->schema([
                         Components\Split::make([
-                            Components\Grid::make(2)
+                            Components\Grid::make(7)
                                 ->schema([
-                                    Components\Group::make([
+                                    // Components\Group::make([
                                         Components\TextEntry::make('nota_1_corte'),
                                         Components\TextEntry::make('nota_2_corte'),
                                         Components\TextEntry::make('primer_semestre'),
-                                    ]),
-                                    Components\Group::make([
+                                    // ]),
+                                    // Components\Group::make([
                                         Components\TextEntry::make('nota_3_corte'),
                                         Components\TextEntry::make('nota_4_corte'),
                                         Components\TextEntry::make('segundo_semestre'),
-                                    ]),
-                                    Components\Group::make([
+                                    // ]),
+                                    // Components\Group::make([
                                         Components\TextEntry::make('nota_final'),
-                                    ]),
+                                    // ]),
                                 ]),
                         ])
                     ]),
@@ -144,10 +144,13 @@ class NotaResource extends Resource
     {
         return $table
             ->defaultGroup('grado.nombre_completo')
+            ->groups(['grado.siglas'])
+            ->defaultSort('estudiante.nombre_completo')
             ->columns([
                 //
                 Tables\Columns\TextColumn::make('estudiante.nombre_completo')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('materia.siglas')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('grado.siglas')->sortable()->searchable(),
                 Tables\Columns\TextInputColumn::make('nota_1_corte'),
                 Tables\Columns\TextInputColumn::make('nota_2_corte'),
                 Tables\Columns\TextInputColumn::make('nota_3_corte'),
