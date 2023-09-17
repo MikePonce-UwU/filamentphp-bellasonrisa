@@ -60,7 +60,7 @@ class AdminPanelProvider extends PanelProvider
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Portal para padres (Admin)')
-                    ->url('for-parents')
+                    ->url(fn () => route('filament.parents.pages.dashboard'))
                     // ->icon('heroicons-o-arrow-uturn-right')
                     // ->hidden(fn(): bool => auth()->user()->hasRole(['Admin', 'Padre de  familia']) || auth()->user()->current_role_id === 5)
             ])
